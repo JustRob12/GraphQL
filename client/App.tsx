@@ -1,20 +1,23 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './src/apollo/client';
+import Navigation from './src/navigation';
+import { LogBox } from 'react-native';
+
+// Ignore specific warnings that might occur from the image fetch
+LogBox.ignoreLogs([
+  'Network request failed',  // For image loading issues
+]);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <ApolloProvider client={client}>
+        <Navigation />
+        <StatusBar style="auto" />
+      </ApolloProvider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
